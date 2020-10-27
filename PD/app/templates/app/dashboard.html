@@ -1,0 +1,15 @@
+{% extends 'app/base.html' %}
+{% load account %}
+{% load socialaccount %}
+
+{% block body %}
+
+
+{% if user.is_authenticated %}
+    {% include 'app/nav.html' %}
+{% endif %}
+
+
+    
+{% endblock body %}
+    

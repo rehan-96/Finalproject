@@ -1,0 +1,49 @@
+{% extends 'app/base.html' %}
+{% load account %}
+{% load socialaccount %}
+
+{% block body %}
+
+
+{% if user.is_authenticated and user.role != None %}
+    {% include 'app/nav.html' %}
+{% endif %}
+
+
+{% if user.role == 'physician' or user.role == 'researcher' or user.role == 'junior researcher' %}
+    
+
+
+<div class="container">
+    <div class="row">
+       
+       {% for feed in feed %}
+        <div class="col-lg-4">
+            <div class="card m-2" style="width: 20rem;">
+                <img class="card-img-top" src="{{feed.media}}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{feed.title}}</h5>
+                <small class="card-subtitle mb-2 text-muted">{{feed.pubdate}}</small>
+                <p class="card-text">{{feed.description}}</p>
+                <a href="{{feed.comments}}" class="card-link">Comments</a>
+                <a href="{{feed.link}}" class="card-link">link</a>
+            </div>
+            </div>
+        </div>
+       {% endfor %}
+           
+    </div>
+</div>
+
+{% endif %}
+
+
+
+{% if user.role == None %}
+    {% include 'app/404.html' %}
+{% endif %}
+    
+    
+
+{% endblock body %}
+    

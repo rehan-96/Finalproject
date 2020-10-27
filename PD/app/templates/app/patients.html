@@ -1,0 +1,56 @@
+{% extends 'app/base.html' %}
+{% load account %}
+{% load socialaccount %}
+
+{% block body %}
+
+
+{% if user.is_authenticated and user.role != None %}
+    {% include 'app/nav.html' %}
+{% endif %}
+
+
+{% if user.role == 'physician' or user.role == 'researcher' or user.role == 'junior researcher' %}
+    
+<div class="container jumbotron bg-light shadow">
+    <table class="table">
+      <thead class="">
+        <tr>
+          <th scope="col">Patient</th>
+          <th scope="col">email</th>
+          <th scope="col">organization</th>
+          <th scope="col">Opt</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        {% for patient in patients %}
+            <tr>
+                <td>{{patient.full_name}}</td>
+                <td>{{patient.email}}</td>
+                <td>{{patient.organization}}</td>
+                <td>
+                    <a href="{% url 'app:therapy' patient.id %}"><span class="badge badge-primary">Therapy</span></a>
+                </td>
+
+            </tr>
+        {% endfor %}
+            
+       
+      </tbody>
+    </table>
+    
+    </div>    
+
+{% endif %}
+
+
+
+{% if user.role == None %}
+    {% include 'app/404.html' %}
+{% endif %}
+    
+    
+
+{% endblock body %}
+    

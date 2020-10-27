@@ -1,0 +1,66 @@
+{% extends 'app/base.html' %}
+{% load account %}
+{% load socialaccount %}
+
+{% block body %}
+
+
+{% if user.is_authenticated and user.role != None %}
+    {% include 'app/nav.html' %}
+{% endif %}
+
+
+{% if user.role == 'physician' or user.role == 'researcher' or user.role == 'junior researcher' %}
+    
+<div class="container jumbotron bg-light shadow">
+    <table class="table">
+      <thead class="">
+        <tr>
+          <th scope="col">Patient</th>
+          <th scope="col">Therapy</th>
+          <th scope="col">Medicine</th>
+          <th scope="col">Dosage</th>
+          <th scope="col">Opt</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        {% if therapy %}
+            {% for patient in therapy %}
+                <tr>
+                    <td>{{patient.patient.full_name|title}}</td>
+                    <td>{{patient.therapy_list}}</td>
+                    <td>{{patient.medicines.med_name}}</td>
+                    <td>{{patient.therapy_list.dosage}}</td>
+                    <td>
+                        <a href="{% url 'app:tests' patient.id patient.patient.id %}"><span class="badge badge-primary">Therapy</span></a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+
+            {% else %}
+            <tr>
+                <td>No record found</td>
+            </tr>
+        {% endif %}
+            
+            
+       
+      </tbody>
+    </table>
+    
+    </div>    
+
+{% endif %}
+
+
+
+{% if user.role == None %}
+    {% include 'app/404.html' %}
+{% endif %}
+    
+    
+
+{% endblock body %}
+    
